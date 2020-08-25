@@ -1,16 +1,20 @@
 <template>
-  <div>
-      <h1>{{ itemTitle }}</h1>
-      <p>{{ itemContent }}</p>
+  <div class="card w-100">
+      <div class="card-body">
+
+          <h5 class="card-title">{{ itemTitle }}</h5>
+          <p class="card-text">{{ itemContent }}</p>
+      </div>
+      <h1></h1>
+
   </div>
 </template>
 
 <script>
 export default {
-    props:{"itemTitle": String,"itemContent": String,"price": Number},
-    mounted(){
-        console.log(this.itemTitle);
-    }
+    props:{"itemTitle": String,"itemContent": String,"price": Number}
+
+
 }
 </script>
 
