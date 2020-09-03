@@ -47,12 +47,12 @@ import validationErrors from "./../shared/mixins/validationErrors";
     export default {
         mixins: [validationErrors],
         props: {
-            bookableId: String
+            bookableId: [String, Number]
         },
         data() {
             return {
-                from: null,
-                to: null,
+                from: this.$store.state.lastSearch.from,
+                to: this.$store.state.lastSearch.to,
                 loading:false,
                 status: null,
                 //errors: null
@@ -63,6 +63,12 @@ import validationErrors from "./../shared/mixins/validationErrors";
             check() {
                 this.loading = true;
                 this.errors = null;
+
+               // console.log(this.$store)
+                this.$store.commit('setLastSearch', {
+                    from: this.from,
+                    to: this.to
+                });
                 axios.get(`/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`
 
                 ).then(response => {
