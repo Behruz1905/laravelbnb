@@ -1920,6 +1920,13 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1936,7 +1943,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      lastSearch: this.$store.state.lastSearch
+    };
+  },
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    lastSearchComputed: "lastSearch"
+  })), {}, {
+    somethingElse: function somethingElse() {
+      return 1 + 3;
+    }
+  })
+});
 
 /***/ }),
 
@@ -1951,6 +1972,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_utils_response__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/utils/response */ "./resources/js/shared/utils/response.js");
 /* harmony import */ var _shared_mixins_validationErrors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/mixins/validationErrors */ "./resources/js/shared/mixins/validationErrors.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2015,9 +2042,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      this.errors = null; // console.log(this.$store)
+      this.errors = null; // console.log(this.$store)store.dispatch('increment')
 
-      this.$store.commit('setLastSearch', {
+      this.$store.dispatch('setLastSearch', {
         from: this.from,
         to: this.to
       });
@@ -61018,16 +61045,21 @@ var render = function() {
       { staticClass: "text-uppercase text-secondary font-weight-bolder" },
       [
         _vm._v("\n        Check Availability\n        "),
-        _vm.noAvailability
-          ? _c("span", { staticClass: "text-danger" }, [
-              _vm._v("(NOT AVAILABLE)")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.hasAvailability
-          ? _c("span", { staticClass: "text-success" }, [_vm._v("(AVAILABLE)")])
-          : _vm._e()
-      ]
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.noAvailability
+            ? _c("span", { staticClass: "text-danger" }, [
+                _vm._v("(NOT AVAILABLE)")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasAvailability
+            ? _c("span", { staticClass: "text-success" }, [
+                _vm._v("(AVAILABLE)")
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
     ),
     _vm._v(" "),
     _c("div", { staticClass: "form-row" }, [
@@ -61119,7 +61151,16 @@ var render = function() {
         attrs: { disabled: _vm.loading },
         on: { click: _vm.check }
       },
-      [_vm._v("Check!")]
+      [
+        !_vm.loading ? _c("span", [_vm._v("Check!")]) : _vm._e(),
+        _vm._v(" "),
+        _vm.loading
+          ? _c("span", [
+              _c("i", { staticClass: "fas fa-circle-notch fa-spin" }),
+              _vm._v("Cheking...")
+            ])
+          : _vm._e()
+      ]
     )
   ])
 }
@@ -78368,6 +78409,9 @@ var app = new Vue({
   store: store,
   components: {
     "index": _Index__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    this.$store.dispatch("loadStoredState");
   }
 });
 
@@ -79255,6 +79299,19 @@ __webpack_require__.r(__webpack_exports__);
     setLastSearch: function setLastSearch(state, payload) {
       state.lastSearch = payload;
     }
+  },
+  actions: {
+    setLastSearch: function setLastSearch(context, payload) {
+      context.commit('setLastSearch', payload);
+      localStorage.setItem('lastSearch', JSON.stringify(payload));
+    },
+    loadStoredState: function loadStoredState(context) {
+      var lastSearch = localStorage.getItem('lastSearch');
+
+      if (lastSearch) {
+        context.commit('setLastSearch', JSON.parse(lastSearch));
+      }
+    }
   }
 });
 
@@ -79278,8 +79335,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xamppN\htdocs\laravelbnb\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xamppN\htdocs\laravelbnb\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xamppTeze\htdocs\laravelbnb\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xamppTeze\htdocs\laravelbnb\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

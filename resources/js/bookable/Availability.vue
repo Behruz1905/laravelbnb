@@ -2,8 +2,11 @@
     <div>
         <h6 class="text-uppercase text-secondary font-weight-bolder">
             Check Availability
-            <span v-if="noAvailability" class="text-danger">(NOT AVAILABLE)</span>
-            <span v-if="hasAvailability" class="text-success">(AVAILABLE)</span>
+            <transition name="fade">
+                <span v-if="noAvailability" class="text-danger">(NOT AVAILABLE)</span>
+                <span v-if="hasAvailability" class="text-success">(AVAILABLE)</span>
+            </transition>
+
         </h6>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -37,7 +40,10 @@
 
             </div>
         </div>
-        <button class="btn btn-secondary btn-block" @click="check" :disabled="loading">Check!</button>
+        <button class="btn btn-secondary btn-block" @click="check" :disabled="loading">
+            <span v-if="!loading">Check!</span>
+            <span v-if="loading"> <i class="fas fa-circle-notch fa-spin"></i>Cheking...</span>
+        </button>
     </div>
 </template>
 
@@ -64,8 +70,9 @@ import validationErrors from "./../shared/mixins/validationErrors";
                 this.loading = true;
                 this.errors = null;
 
-               // console.log(this.$store)
-                this.$store.commit('setLastSearch', {
+               // console.log(this.$store)store.dispatch('increment')
+
+                this.$store.dispatch('setLastSearch', {
                     from: this.from,
                     to: this.to
                 });
