@@ -12,7 +12,7 @@
                   <label for="email">Password</label>
                   <input type="password" name="password" placeholder="Enter yr password" class="form-control" v-model="password"  :class="[{'is-invalid': errorFor('password')}]">
                    <v-errors :errors="errorFor('password')"></v-errors>
-              </div>
+                </div>
 
               <button type="submit" class="btn btn-primary btn-lg btn-block" :disabled="loading" @click.prevent="login">Log in</button>
 
@@ -20,7 +20,7 @@
 
               <div>
                   No account yet?
-                  <router-link :to="{name: 'home'}" class="font-weight-bold">Register</router-link>
+                  <router-link :to="{name: 'register'}" class="font-weight-bold">Register</router-link>
               </div>
 
                  <span>
